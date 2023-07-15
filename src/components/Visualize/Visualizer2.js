@@ -3,6 +3,8 @@ import "./Visualizer.css";
 import {
   getMergeSortAnimation,
   bubbleSortAnimation,
+  selectionSortAnimation,
+  insertionSortAnimation,
 } from "../sortingAlgo/sortingAlgos";
 
 const No_of_array_bars = Math.floor((parseInt(50) + 3) * 1.65);
@@ -50,7 +52,7 @@ export const Visualizer2 = () => {
 
   function mergeSort() {
     const animation = getMergeSortAnimation(array);
-    console.log(Animation_speed);
+
     let arrayBars = document.getElementsByClassName("array-bar");
     let count = 0;
     for (let i = 0; i < animation.length; i++) {
@@ -88,13 +90,57 @@ export const Visualizer2 = () => {
   }
   //Merge Sort Code Ends
 
-  function quickSort() {}
+  //Selection Sort Begins
+
+  function selectionSort() {
+    const animation = selectionSortAnimation(array);
+    const arrayBars = document.getElementsByClassName("array-bar");
+    let count = 0;
+    for (let i = 0; i < animation.length; i++) {
+      count++;
+      const [barone, bartwo, indicate, temp] = animation[i];
+      const baronestyle = arrayBars[barone].style;
+      const bartwostyle = arrayBars[bartwo].style;
+      if (indicate === 0) {
+        setTimeout(() => {
+          baronestyle.backgroundColor = Secondary_color;
+          bartwostyle.backgroundColor = Secondary_color;
+        }, i * Animation_speed);
+      } else if (indicate === 1) {
+        setTimeout(() => {
+          const temp = baronestyle.height;
+          baronestyle.height = bartwostyle.height;
+          bartwostyle.height = temp;
+          baronestyle.height *= 3;
+          bartwostyle.height *= 3;
+        }, i * Animation_speed);
+      } else if (indicate === 2) {
+        setTimeout(() => {
+          baronestyle.backgroundColor = Primary_color;
+          bartwostyle.backgroundColor = Primary_color;
+        }, i * Animation_speed);
+      }
+    }
+    setTimeout(() => {
+      if (count === animation.length) {
+        for (let j = 0; j < arrayBars.length; j++) {
+          arrayBars[j].style.backgroundColor = "#90EE90";
+        }
+      }
+    }, animation.length * Animation_speed);
+    setTimeout(() => {
+      for (let j = 0; j < arrayBars.length; j++) {
+        arrayBars[j].style.backgroundColor = Primary_color;
+      }
+    }, animation.length * Animation_speed + 2000);
+  }
+
+  //Selection Sort Ends
   function heapSort() {}
 
   //Bubble Sort Code Starts
 
   function bubbleSort() {
-    console.log(Animation_speed);
     const animation = bubbleSortAnimation(array);
     const arrayBars = document.getElementsByClassName("array-bar");
     let count = 0;
@@ -140,7 +186,49 @@ export const Visualizer2 = () => {
 
   //Bubble Sort Code Ends
 
-  function testSortingAlgorithms() {}
+  //Insertion Sort Begins
+
+  function insertionSort() {
+    const animation = insertionSortAnimation(array);
+    const arrayBars = document.getElementsByClassName("array-bar");
+    let count = 0;
+    for (let i = 0; i < animation.length; i++) {
+      count++;
+      const [barone, bartwo, indicate] = animation[i];
+      const baronestyle = arrayBars[barone].style;
+      const bartwostyle = arrayBars[bartwo].style;
+      if (indicate === 0) {
+        setTimeout(() => {
+          baronestyle.backgroundColor = Secondary_color;
+          bartwostyle.backgroundColor = Secondary_color;
+        }, i * Animation_speed);
+      } else if (indicate === 1) {
+        setTimeout(() => {
+          baronestyle.height = bartwostyle.height;
+          baronestyle.height *= 3;
+        }, i * Animation_speed);
+      } else if (indicate === 2) {
+        setTimeout(() => {
+          baronestyle.backgroundColor = Primary_color;
+          bartwostyle.backgroundColor = Primary_color;
+        }, i * Animation_speed);
+      }
+    }
+    setTimeout(() => {
+      if (count === animation.length) {
+        for (let j = 0; j < arrayBars.length; j++) {
+          arrayBars[j].style.backgroundColor = "#90EE90";
+        }
+      }
+    }, animation.length * Animation_speed);
+    setTimeout(() => {
+      for (let j = 0; j < arrayBars.length; j++) {
+        arrayBars[j].style.backgroundColor = Primary_color;
+      }
+    }, animation.length * Animation_speed + 2000);
+  }
+
+  //Insertion Sort Ends
 
   const numWidth = Math.floor(
     document.documentElement.clientWidth / (array.length * 3)
@@ -173,11 +261,11 @@ export const Visualizer2 = () => {
           <button className="button" onClick={mergeSort}>
             Merge Sort
           </button>
-          <button className="button" onClick={quickSort}>
-            Quick Sort
+          <button className="button" onClick={selectionSort}>
+            Selection Sort
           </button>
-          <button className="button" onClick={heapSort}>
-            Heap Sort
+          <button className="button" onClick={insertionSort}>
+            Insertion Sort
           </button>
           <button className="button" onClick={bubbleSort}>
             Bubble Sort
