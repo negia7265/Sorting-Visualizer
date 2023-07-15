@@ -76,3 +76,51 @@ export function bubbleSortAnimation(array) {
   }
   return animations;
 }
+export function selectionSortAnimation(arr) {
+  const len = arr.length;
+  const temporary = arr.slice();
+  const animations = [];
+  for (let i = 0; i < len - 1; i++) {
+    let minIndex = i;
+    animations.push([i, i, 0, 0]);
+    for (let j = i + 1; j < len; j++) {
+      animations.push([i, j, 0, 0]);
+      animations.push([j, j, 2, 0]);
+      if (temporary[j] < temporary[minIndex]) {
+        minIndex = j;
+      }
+    }
+    if (minIndex !== i) {
+      animations.push([i, minIndex, 0, 1]);
+      animations.push([i, minIndex, 1, 0]);
+      [temporary[i], temporary[minIndex]] = [temporary[minIndex], temporary[i]];
+    }
+    animations.push([i, i, 2]);
+  }
+
+  return animations;
+}
+export function insertionSortAnimation(arr) {
+  const len = arr.length;
+  const temporary = arr.slice();
+  const animations = [];
+
+  for (let i = 1; i < len; i++) {
+    //animations.push([i, i, 0]);
+    let currentValue = temporary[i];
+    let j = i - 1;
+    while (j >= 0 && temporary[j] > currentValue) {
+      //animations.push([j + 1, j, 0]);
+      animations.push([j + 1, j, 1]);
+      //animations.push([j + 1, j, 2]);
+      temporary[j + 1] = temporary[j];
+      j--;
+    }
+    //animations.push([j + 1, i, 0]);
+    animations.push([j + 1, i, 1]);
+    //animations.push([j + 1, i, 2]);
+    temporary[j + 1] = currentValue;
+    //animations.push([i, i, 2]);
+  }
+  return animations;
+}
